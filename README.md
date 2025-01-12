@@ -1,45 +1,87 @@
-# Mock Liquidity Pool
+# Decentralized Exchange Liquidity System
 
-This MockLiquidityPool contract simulates a basic liquidity pool with functionalities to add/remove liquidity, swap tokens, and retrieve exchange rates or token liquidity. It maintains a mapping of token addresses to their liquidity amounts and enforces checks for sufficient liquidity during operations.
+A robust implementation of an automated liquidity management system for decentralized token exchanges, featuring real-time rate calculations and efficient token swapping mechanisms.
 
-## Contracts
+## Core Components
 
-### MockLiquidityPool
+### LiquidityManager Contract
 
-The `MockLiquidityPool` contract simulates a liquidity pool with basic functionalities such as adding liquidity, removing liquidity, swapping tokens, and getting exchange rates.
+The primary contract handling all liquidity-related operations in a decentralized manner. This contract serves as the backbone of the exchange system, managing token pairs and their respective liquidity pools.
 
-### MockToken
+#### Key Features:
+- Dynamic liquidity provision and withdrawal
+- Automated token swap execution
+- Real-time exchange rate calculations
+- Liquidity pool balance monitoring
+- Safety checks and validation systems
 
-The `MockToken` is just a sample token used for testing.
+#### Main Operations:
 
-#### Functions:
-
-- `addLiquidity(address token, uint256 amount)`: Adds liquidity for a specific token.
-- `removeLiquidity(address token, uint256 amount)`: Removes liquidity for a specific token.
-- `swap(address fromToken, address toToken, uint256 amount)`: Swaps a specified amount of one token for another.
-- `getExchangeRate(address fromToken, address toToken)`: Returns the exchange rate between two tokens.
-- `getLiquidity(address token)`: Returns the liquidity available for a specific token.
-
-### MockToken
-
-The `MockToken` contract is an ERC20 token with customizable decimals.
-
-#### Constructor:
-
-- `constructor(string memory name, string memory symbol, uint8 decimal)`: Initializes the token with a name, symbol, and decimal places.
-
-#### Functions:
-
-- `decimals()`: Returns the number of decimal places for the token.
-
-## Running Tasks
-
-Try running some of the following tasks:
-
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/Lock.ts
+```solidity
+function provideLiquidity(address tokenAddress, uint256 tokenAmount) external
+function withdrawLiquidity(address tokenAddress, uint256 tokenAmount) external
+function executeSwap(address sourceToken, address targetToken, uint256 amount) external
+function fetchExchangeRate(address sourceToken, address targetToken) external view returns (uint256)
+function checkPoolLiquidity(address tokenAddress) external view returns (uint256)
 ```
+
+### TokenInterface Contract
+
+A standardized token interface implementation used for testing and development purposes. Built on the ERC20 standard with customizable decimal support.
+
+#### Configuration:
+
+The contract initializes with three core parameters:
+```solidity
+constructor(
+    string memory tokenName,
+    string memory tokenSymbol,
+    uint8 decimalPlaces
+)
+```
+
+#### Features:
+- Configurable decimal precision
+- Standard ERC20 compliance
+- Built-in safety mechanisms
+- Transparent supply management
+
+## Development Guidelines
+
+### Environment Setup
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Compile contracts:
+```bash
+npx hardhat compile
+```
+
+### Testing Framework
+
+Execute test suites using:
+```bash
+# Standard test execution
+npx hardhat test
+
+# With gas reporting
+REPORT_GAS=true npx hardhat test
+
+# Start local node
+npx hardhat node
+
+# Deploy using Ignition
+npx hardhat ignition deploy ./ignition/modules/LiquidityModule.ts
+```
+
+## Technical Specifications
+
+- Smart contract architecture follows Ethereum standards
+- Gas-optimized operations for cost-effective transactions
+- Comprehensive testing suite for all core functionalities
+- Modular design for easy upgrades and maintenance
+
+Would you like me to modify any specific section or add more technical details to any part of this documentation?
